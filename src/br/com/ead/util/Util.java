@@ -54,4 +54,8 @@ public class Util {
 		senhaCriptografada = hash.toString(16);
 		return senhaCriptografada;
 	}
+	
+	public static boolean isNullOrEmpty(String string){
+		return (string == null || string.equals(""));
+	}
 }

@@ -11,9 +11,9 @@
 		<p:menubar>
 			<p:menuitem value="Home" icon="ui-icon-home" url="/pages/index.xhtml"/>
 			
-			<p:menuitem value="Aluno" icon="ui-icon-home" url="/pages/index.xhtml"/>
+			<p:menuitem value="Aluno" icon="ui-icon-home" url="/pages/aluno/aluno.xhtml" rendered="#{usuarioWeb.usuarioAdmin}" />
 			
-			<p:menuitem value="Professor" icon="ui-icon-home" url="/pages/index.xhtml"/>
+			<p:menuitem value="Professor" icon="ui-icon-home" url="/pages/index.xhtml" rendered="#{usuarioWeb.usuarioAdmin}" />
 			
 			<p:menuitem value="Turma" icon="ui-icon-home" url="/pages/index.xhtml" rendered="#{usuarioWeb.usuarioAdmin}" />
 

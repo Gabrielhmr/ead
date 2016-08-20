@@ -1,0 +1,169 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<ui:composition template="/template/template_padrao.xhtml">
+		<ui:define name="conteudo">
+			<p />
+			<p />
+			<p:outputPanel autoUpdate="true">
+				<h:panelGroup id="mensagens" layout="block">
+					<p:messages id="messages" showDetail="false" autoUpdate="true" />
+				</h:panelGroup>
+			</p:outputPanel>
+
+			<h:form binding="#{alunoBean.form}">
+				<p:panel header="Cadastro de Alunos">
+
+					<t:saveState value="#{alunoBean.state}" />
+					<t:saveState value="#{alunoBean.aluno}" />
+					<t:saveState value="#{alunoBean.alunos}" />
+
+					<t:div id="blocoDePesquisa" rendered="#{alunoBean.pesquisando}">
+
+						<div style="margin-left: 5px; float: left;">
+							<h:outputLabel value="Nome" for="nome" />
+							<p:inputText value="#{alunoBean.aluno.nome}" size="60" />
+						</div>
+
+						<div style="margin-left: 5px; float: left;">
+							<h:outputLabel value="Matricula" for="matricula" />
+							<p:inputText value="#{alunoBean.aluno.matricula}" size="15">
+							</p:inputText>
+						</div>
+
+						<t:div style="margin-left: 5px; float: left;">
+							<h:outputLabel value=""
+								style="visibility:hidden; margin-bottom:6px" />
+							<p:commandButton icon="ui-icon-search" label="Pesquisar"
+								value="Pesquisar" action="#{alunoBean.lista}" update="tabela" />
+						</t:div>
+						
+						<div align="right" style="margin-bottom: 10px;">
+							<div style="margin-left: 10px; float: right;">
+								<h:commandButton value="#{text['label.adicionar']}"
+									action="#{alunoBean.preparaParaAdicionar}"
+									styleClass="botao-default">
+									<f:ajax render="@form" />
+								</h:commandButton>
+							</div>
+							
+							<div style="margin-left: 10px; float: right;">
+								<!-- <h:commandButton value="Listar" action="#{alunoBean.lista}" styleClass="botao-default">
+									<f:ajax render="tabela :mensagens" />
+								</h:commandButton> -->
+							</div>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="clear"></div>
+						<br />
+						
+						<p:dataTable id="tabela" value="#{alunoBean.alunos}"
+							var="aluno" rowClasses="odd, even"
+							emptyMessage="#{text['table.empty']}">
+
+							<p:column headerText="Nome">
+								<h:outputText value="#{aluno.nome}" />
+							</p:column>
+
+							<p:column headerText="Matricula">
+								<h:outputText value="#{aluno.matricula}" />
+							</p:column>
+							
+							<p:column headerText="Ações">
+								<div style="margin-left: 10px; float: left;">
+									<h:commandButton value="#{text['label.editar']}"
+										action="#{alunoBean.preparaParaAlterar(aluno)}"
+										styleClass="botao-default">
+										<f:ajax render="@form" />
+									</h:commandButton>
+								</div>
+								
+								<!-- <div style="margin-left: 10px; float: left;">
+									<h:commandButton value="#{text['label.remover']}"
+										action="#{alunoBean.remove}"
+										onclick="return confirm('Deseja realmente remover este aluno?');"
+										styleClass="botao-default">
+										<f:ajax render="@form :mensagens" />
+										<f:setPropertyActionListener target="#{alunoBean.aluno}"
+											value="#{aluno}" />
+									</h:commandButton>
+								</div> -->
+							</p:column>
+						</p:dataTable>
+					</t:div>
+
+					<t:div id="blocoDeEdicao" rendered="#{not alunoBean.pesquisando}">
+						<p:fieldset legend="Dados do Aluno">
+							<p:focus for="nome" />
+							<div style="margin-left: 10px; float: left;">
+								<h:outputLabel value="Nome" for="nome" />
+								<p:inputText id="nome" value="#{alunoBean.aluno.nome}"
+									label="Nome" required="true" size="60"
+									onkeydown="this.value = this.value.toUpperCase()"
+									onkeyup="this.value = this.value.toUpperCase()" />
+							</div>
+
+							<div style="margin-left: 10px; float: left;">
+								<h:outputLabel value="Matricula" for="matricula" />
+								<p:inputText id="matricula" value="#{alunoBean.aluno.matricula}" />
+							</div>
+
+							<div class="clear"></div>
+
+							<div style="margin-left: 10px; float: left;">
+								<h:outputLabel value="Login" for="login" />
+								<p:inputText id="login"
+									value="#{alunoBean.aluno.usuario.username}" label="Identidade" size="15" />
+							</div>
+
+							<div class="clear"></div>
+
+						</p:fieldset>
+						<div align="left" style="margin-top: 20px;">
+							<div style="margin-left: 10px; float: left;">
+								<h:commandButton value="#{text['label.salvar']}"
+									action="#{alunoBean.adiciona}"
+									rendered="#{alunoBean.adicionando}" styleClass="botao-default">
+									<f:ajax execute="@form" render="@form :mensagens" />
+								</h:commandButton>
+							</div>
+							
+							<div style="margin-left: 10px; float: left;">
+								<h:commandButton value="#{text['label.atualizar']}"
+									action="#{alunoBean.altera}" rendered="#{alunoBean.editando}"
+									styleClass="botao-default">
+									<f:ajax execute="@form" render="@form :mensagens" />
+								</h:commandButton>
+							</div>
+							
+							<div style="margin-left: 10px; float: left;">
+								<h:commandButton value="#{text['label.voltar']}"
+									immediate="true" action="#{alunoBean.voltar}"
+									styleClass="botao-default">
+									<f:ajax execute="@form" render="@form :mensagens" />
+								</h:commandButton>
+							</div>
+							
+							<div class="clear"></div>
+						</div>
+					</t:div>
+				</p:panel>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

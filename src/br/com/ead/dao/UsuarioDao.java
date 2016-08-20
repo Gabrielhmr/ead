@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ead.model.Usuario;
 
+
 @Repository("usuarioDao")
 @Transactional
 public class UsuarioDao {
@@ -41,8 +42,15 @@ public class UsuarioDao {
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Usuario findBy(String login, String senha) {
-		return (Usuario) createCriteria().add(Restrictions.eq("login", login))
-				.add(Restrictions.eq("senha", senha)).uniqueResult();
+		return (Usuario) createCriteria().add(Restrictions.eq("username", login))
+				.add(Restrictions.eq("password", senha)).uniqueResult();
+	}
+	
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Usuario findBy(String login) {
+		return (Usuario) createCriteria()
+				.add(Restrictions.eq("username", login))
+				.uniqueResult();
 	}
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

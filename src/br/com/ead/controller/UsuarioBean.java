@@ -25,6 +25,7 @@ public class UsuarioBean {
 	private static final String ESTADO_DE_NOVO = "_novo";
 	private static final String ESTADO_DE_EDICAO = "_edicao";
 	private static final String ESTADO_DE_PESQUISA = "_pesquisa";
+	private static final String SENHA_PADRAO = "123456";
 
 	private String state = ESTADO_DE_PESQUISA;
 
@@ -44,29 +45,19 @@ public class UsuarioBean {
 
 	public void preparaParaAdicionar() {
 		this.usuario = new Usuario();
-		facesUtils.cleanSubmittedValues(form); // limpa arvore
+		facesUtils.cleanSubmittedValues(form);
 		setState(ESTADO_DE_NOVO);
 	}
-
-	/*
-	 * Todo usuário criado pelo sistema inicia com o PERFIL USUÁRIO
-	 */
+	
 	public void adiciona() {
-
-		boolean senhaInvalida = !confirmacaoDeSenha.equals(novaSenha);
-		if (senhaInvalida) {
-			facesUtils.adicionaMensagemDeErro("Senha de confirmação de senha não conferem.");
-			return;
-		}
 
 		List<Role> roles = new ArrayList<Role>();
 		roles.add(roleDao.load("USUARIO"));
 		usuario.setRoles(roles);
 		usuario.setEnabled(true);
-		usuario.setPassword(novaSenha);
+		usuario.setPassword(SENHA_PADRAO);
 		usuarioDao.save(usuario);
-		facesUtils
-				.adicionaMensagemDeInformacao("Usuário adicionado com sucesso!");
+		facesUtils.adicionaMensagemDeInformacao("Usuário adicionado com sucesso!");
 		lista();
 	}
 

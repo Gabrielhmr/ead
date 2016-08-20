@@ -22,8 +22,8 @@ public class Aluno {
 	private String matricula;
 	@ManyToMany(mappedBy="alunos")
 	private List<Turma> turmas;
-	@OneToOne(cascade=CascadeType.MERGE)
-	private Usuario usuario;
+	@OneToOne(cascade=CascadeType.ALL)
+	private Usuario usuario = new Usuario();
 	
 	public Long getId() {
 		return id;
@@ -56,5 +56,11 @@ public class Aluno {
 		this.turmas = turmas;
 	}
 	
-	
+	public void preencherUsuario(List<Role> roles) {
+		this.usuario.setNome(nome);
+		this.usuario.setMainUser(false);
+		this.usuario.setEnabled(true);
+		this.usuario.setRoles(roles);
+		this.usuario.setPassword("123456");
+	}
 }
