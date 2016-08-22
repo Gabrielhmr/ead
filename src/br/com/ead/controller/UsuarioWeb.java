@@ -24,6 +24,14 @@ public class UsuarioWeb implements Serializable {
 		return this.perfil.equalsIgnoreCase("USUARIO");
 	}
 	
+	public boolean isUsuarioAluno(){
+		return this.perfil.equalsIgnoreCase("USUARIO");
+	}
+	
+	public boolean isUsuarioProfessor(){
+		return this.perfil.equalsIgnoreCase("PROFESSOR");
+	}
+	
 	public boolean isUsuarioAdmin(){
 		return this.perfil.equalsIgnoreCase("ADMINISTRADOR");
 	}	

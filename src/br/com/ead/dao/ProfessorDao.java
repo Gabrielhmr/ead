@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ead.model.Professor;
+import br.com.ead.model.Usuario;
 
 @Repository("professorDao")
 @Transactional
@@ -47,10 +48,23 @@ public class ProfessorDao {
 		return getCriteria().add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE)).list();
 	}
 	
+	public Professor obterProfessorPorNome(String nome) {
+		List<Professor> lista = getCriteria().add(Restrictions.eq("nome", nome)).list();
+		if (lista != null && lista.size() > 0) {
+			return lista.get(0);
+		}
+		return null; 
+	}
+	
+	public Professor obterProfessorPeloLogin(Usuario usuario) {
+		return (Professor) getCriteria().add(Restrictions.eq("usuario", usuario)).uniqueResult();
+	}
+	
 	public Criteria getCriteria(){
 		Session session = (Session) entityManager.getDelegate();
 		return session.createCriteria(Professor.class);
 	}
+
 
 	
 	

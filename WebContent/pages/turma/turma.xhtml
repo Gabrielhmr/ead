@@ -1,0 +1,154 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<ui:composition template="/template/template_padrao.xhtml">
+		<ui:define name="conteudo">
+			<p />
+			<p />
+			<p:outputPanel autoUpdate="true">
+				<h:panelGroup id="mensagens" layout="block">
+					<p:messages id="messages" showDetail="false" autoUpdate="true" />
+				</h:panelGroup>
+			</p:outputPanel>
+
+			<h:form binding="#{turmaBean.form}">
+				<p:panel header="Cadastro de Turmas">
+
+					<t:saveState value="#{turmaBean.state}" />
+					<t:saveState value="#{turmaBean.turma}" />
+					<t:saveState value="#{turmaBean.turmas}" />
+					<t:saveState value="#{turmaBean.idProfessor}" />
+					<t:saveState value="#{turmaBean.professores}" />
+					<t:saveState value="#{turmaBean.selectedAlunos}" />
+					<t:saveState value="#{turmaBean.alunos}" />
+
+					<t:div id="blocoDePesquisa" rendered="#{turmaBean.pesquisando}">
+
+						<div style="margin-left: 5px; float: left;">
+							<h:outputLabel value="Descricao" for="descricao" />
+							<p:inputText value="#{turmaBean.turma.descricao}" size="60" />
+						</div>
+
+						<t:div style="margin-left: 5px; float: left;">
+							<h:outputLabel value=""
+								style="visibility:hidden; margin-bottom:6px" />
+							<p:commandButton icon="ui-icon-search" label="Pesquisar"
+								value="Pesquisar" action="#{turmaBean.lista}" update="tabela" />
+						</t:div>
+						
+						<div align="right" style="margin-bottom: 10px;">
+							<div style="margin-left: 10px; float: right;">
+								<h:commandButton value="#{text['label.adicionar']}"
+									action="#{turmaBean.preparaParaAdicionar}"
+									styleClass="botao-default">
+									<f:ajax render="@form" />
+								</h:commandButton>
+							</div>
+							
+							<div style="margin-left: 10px; float: right;">
+								
+							</div>
+							<div class="clear"></div>
+						</div>
+						
+						<div class="clear"></div>
+						<br />
+						
+						<p:dataTable id="tabela" value="#{turmaBean.turmas}"
+							var="turma" rowClasses="odd, even"
+							emptyMessage="#{text['table.empty']}">
+
+							<p:column headerText="Descricao">
+								<h:outputText value="#{turma.descricao}" />
+							</p:column>
+							
+							<p:column headerText="Ações">
+								<div style="margin-left: 10px; float: left;">
+									<h:commandButton value="#{text['label.editar']}"
+										action="#{turmaBean.preparaParaAlterar(turma)}"
+										styleClass="botao-default">
+										<f:ajax render="@form" />
+									</h:commandButton>
+								</div>
+								
+							</p:column>
+						</p:dataTable>
+					</t:div>
+
+					<t:div id="blocoDeEdicao" rendered="#{not turmaBean.pesquisando}">
+						<p:fieldset legend="Dados da Turma">
+							<p:focus for="descricao" />
+							<div style="margin-left: 10px; float: left;">
+								<h:outputLabel value="Descricao" for="descricao" />
+								<p:inputText id="descricao" value="#{turmaBean.turma.descricao}"
+									label="Descricao" required="true" size="60"
+									onkeydown="this.value = this.value.toUpperCase()"
+									onkeyup="this.value = this.value.toUpperCase()" />
+							</div>
+							
+							<div class="clear"></div>
+							
+							<p:outputLabel for="professor" value="Professores: " />
+        					<p:selectOneMenu id="professor" value="#{turmaBean.idProfessor}">
+            					<f:selectItem itemLabel="Selecione" itemValue="" />
+            					<f:selectItems value="#{turmaBean.professores}" itemValue="#{professor.id}" itemLabel="#{professor.nome}" var="professor" />
+        					</p:selectOneMenu>
+
+							<div class="clear"></div>
+							
+							<h:outputLabel for="alunos" value="Alunos:" />
+        					<p:selectCheckboxMenu id="alunos" value="#{turmaBean.selectedAlunos}" label="Alunos" 
+                            		filter="true" filterMatchMode="startsWith" panelStyle="width:300px">
+            					<f:selectItems value="#{turmaBean.alunos}" itemValue="#{aluno.id}" itemLabel="#{aluno.nome}" var="aluno" />
+        					</p:selectCheckboxMenu>
+							
+							<div class="clear"></div>
+
+						</p:fieldset>
+						<div align="left" style="margin-top: 20px;">
+							<div style="margin-left: 10px; float: left;">
+								<h:commandButton value="#{text['label.salvar']}"
+									action="#{turmaBean.adiciona}"
+									rendered="#{turmaBean.adicionando}" styleClass="botao-default">
+									<f:ajax execute="@form" render="@form :mensagens" />
+								</h:commandButton>
+							</div>
+							
+							<div style="margin-left: 10px; float: left;">
+								<h:commandButton value="#{text['label.atualizar']}"
+									action="#{turmaBean.altera}" rendered="#{turmaBean.editando}"
+									styleClass="botao-default">
+									<f:ajax execute="@form" render="@form :mensagens" />
+								</h:commandButton>
+							</div>
+							
+							<div style="margin-left: 10px; float: left;">
+								<h:commandButton value="#{text['label.voltar']}"
+									immediate="true" action="#{turmaBean.voltar}"
+									styleClass="botao-default">
+									<f:ajax execute="@form" render="@form :mensagens" />
+								</h:commandButton>
+							</div>
+							
+							<div class="clear"></div>
+						</div>
+					</t:div>
+				</p:panel>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>

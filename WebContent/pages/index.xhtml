@@ -22,9 +22,41 @@
 
 				<p />
 				<p:panel header="Dashboard">
-				
-					<h3 style="margin-top:1">YOUTUBE</h3>
+					
+					<t:saveState value="#{homeBean.aluno}" />
+					<t:saveState value="#{homeBean.professor}" />
+					<t:saveState value="#{homeBean.turmas}" />
+
+
+					<div style="margin-left: 5px; float: left;" >
+						<h:outputLabel value="Nome: #{homeBean.aluno.nome}" size="60" rendered="#{usuarioWeb.usuarioAluno}"/>
+						<h:outputLabel value="Nome: #{homeBean.professor.nome}" size="60" rendered="#{usuarioWeb.usuarioProfessor}"/>
+					</div>
+					
+					<div style="margin-left: 5px; float: left;" >
+						<h:outputLabel value="Matrícula: #{homeBean.aluno.matricula}" size="15" rendered="#{usuarioWeb.usuarioAluno}" />
+					</div>
+					
+					<div class="clear"></div>
+					<br />
+						
+					<p:dataTable id="tabela" value="#{homeBean.turmas}"
+						var="turma" rowClasses="odd, even"
+						emptyMessage="#{text['table.empty']}" >
+
+						<p:column headerText="Turmas">
+							<h:outputText value="#{turma.descricao}" />
+						</p:column>
+							
+					</p:dataTable>
+					
+					<div class="clear"></div>
+					<br />
+					
+					<h3 style="margin-top:1">LINK DO YOUTUBE</h3>
 					<p:media value="http://www.youtube.com/v/m6DDyV7XSMA" width="420" height="315" player="flash"/>
+					
+					
 
 				</p:panel>
 

@@ -67,6 +67,13 @@ public class UsuarioBean {
 		facesUtils.adicionaMensagemDeInformacao("Usuário removido com sucesso!");
 		lista();
 	}
+	
+	public void resetarSenha() {		
+		usuario.setPassword(SENHA_PADRAO);
+		usuarioDao.update(usuario);
+		facesUtils.adicionaMensagemDeInformacao("Senha Resetada com sucesso!");
+		lista();
+	}
 
 	public void preparaParaAlterar(Usuario usuario) {
 		this.usuario = usuarioDao.load(usuario.getId()); // evita LazyInitializationException

@@ -1,5 +1,6 @@
 package br.com.ead.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.ead.model.Aluno;
+import br.com.ead.model.Usuario;
 
 @Repository("alunoDao")
 @Transactional
@@ -60,11 +62,17 @@ public class AlunoDao {
 		return getCriteria().add(Restrictions.ilike("nome", nome, MatchMode.ANYWHERE)).list();
 	}
 	
+	public List<Aluno> pesquisarAlunosPorId(Long[] ids) {
+		return getCriteria().add(Restrictions.in("id", ids)).list();
+	}
+	
+	public Aluno obterAlunoPeloLogin(Usuario usuario) {
+		return (Aluno) getCriteria().add(Restrictions.eq("usuario", usuario)).uniqueResult();
+	}
 	public Criteria getCriteria(){
 		Session session = (Session) entityManager.getDelegate();
 		return session.createCriteria(Aluno.class);
 	}
 
-	
-	
+
 }

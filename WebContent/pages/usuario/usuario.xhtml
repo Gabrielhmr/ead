@@ -117,7 +117,7 @@
 
 							<div class="clear"></div>
 
-							<t:div id="edicao" >
+							<!-- <t:div id="edicao" >
 								<div style="margin-left: 10px; float: left;">
 									<h:outputLabel value="Senha" for="password" />
 									<p:password id="password"
@@ -137,7 +137,7 @@
 										goodLabel="Boa" strongLabel="Forte" feedback="false" size="21"
 										inline="true" />
 								</div>
-							</t:div>
+							</t:div> -->
 
 						</p:fieldset>
 						<div align="left" style="margin-top: 20px;">
@@ -149,8 +149,8 @@
 								</h:commandButton>
 							</div>
 							<div style="margin-left: 10px; float: left;">
-								<h:commandButton value="#{text['label.atualizar']}"
-									action="#{usuarioBean.altera}"
+								<h:commandButton value="Resetar Senha"
+									action="#{usuarioBean.resetarSenha}"
 									rendered="#{usuarioBean.editando}" styleClass="botao-default">
 									<f:ajax execute="@form" render="@form :mensagens" />
 								</h:commandButton>
