@@ -20,8 +20,7 @@ public class UsuarioConverter implements Converter {
 
 		Long id = new Long(value);
 
-		UsuarioDao dao = ctx.getApplication().evaluateExpressionGet(ctx,
-				"#{usuarioDao}", UsuarioDao.class);
+		UsuarioDao dao = ctx.getApplication().evaluateExpressionGet(ctx,"#{usuarioDao}", UsuarioDao.class);
 
 		Usuario usuario = dao.load(id);
 		return usuario;
