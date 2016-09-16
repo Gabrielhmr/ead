@@ -80,6 +80,10 @@
 								<h:outputText value="#{aluno.matricula}" />
 							</p:column>
 							
+							<p:column headerText="Cartao">
+								<h:outputText value="#{aluno.cartao}" />
+							</p:column>
+							
 							<p:column headerText="Ações">
 								<div style="margin-left: 10px; float: left;">
 									<h:commandButton value="#{text['label.editar']}"
@@ -89,7 +93,7 @@
 									</h:commandButton>
 								</div>
 								
-								<!-- <div style="margin-left: 10px; float: left;">
+								 <div style="margin-left: 10px; float: left;">
 									<h:commandButton value="#{text['label.remover']}"
 										action="#{alunoBean.remove}"
 										onclick="return confirm('Deseja realmente remover este aluno?');"
@@ -98,7 +102,7 @@
 										<f:setPropertyActionListener target="#{alunoBean.aluno}"
 											value="#{aluno}" />
 									</h:commandButton>
-								</div> -->
+								</div> 
 							</p:column>
 						</p:dataTable>
 					</t:div>
@@ -120,6 +124,12 @@
 							</div>
 
 							<div class="clear"></div>
+							
+							
+							<div style="margin-left: 10px; float: left;">
+								<h:outputLabel value="Cartao" for="cartao" />
+								<p:inputText id="cartao" value="#{alunoBean.aluno.cartao}" />
+							</div>
 
 							<div style="margin-left: 10px; float: left;">
 								<h:outputLabel value="Login" for="login" />

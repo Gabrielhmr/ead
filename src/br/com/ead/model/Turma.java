@@ -11,17 +11,23 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Turma {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(length=100)
 	private String descricao;
-	@ManyToMany
-	@JoinTable(name="turma_aluno", joinColumns= {@JoinColumn(name="turma_id")}, inverseJoinColumns=  {@JoinColumn(name="aluno_id")})
+	
+	@Column(length=10)
+	private String turno;
+	
+	@OneToMany(mappedBy="turma")
 	private List<Aluno> alunos;
+	
 	@ManyToOne
 	private Professor professor;
 	
@@ -36,6 +42,13 @@ public class Turma {
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	public String getTurno() {
+		return turno;
+	}
+
+	public void setTurno(String turno) {
+		this.turno = turno;
 	}
 	public List<Aluno> getAlunos() {
 		return alunos;

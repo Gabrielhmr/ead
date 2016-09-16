@@ -3,6 +3,7 @@ package br.com.ead.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIForm;
@@ -34,6 +35,12 @@ public class AlunoBean {
 	@ManagedProperty("#{roleDao}")
 	private RoleDao roleDao;
 	
+	@PostConstruct
+	public void init(){
+		alunos = new ArrayList<Aluno>();
+		alunos = alunoDao.listAll();
+	}
+	
 	public void lista() {
 		
 		alunos = new ArrayList<Aluno>();
@@ -61,9 +68,13 @@ public class AlunoBean {
 	public void adiciona() {
 		if(alunoInvalido())
 			return;
-		Aluno alunoRetorno = alunoDao.pesquisarAlunoPorMatricula(aluno.getMatricula());
-		if(alunoRetorno != null){
+		Aluno alunoRetornoMatricula = alunoDao.pesquisarAlunoPorMatricula(aluno.getMatricula());
+		Aluno alunoRetornoCartao = alunoDao.pesquisarAlunoPorCartao(aluno.getCartao());
+		if(alunoRetornoMatricula != null){
 			facesUtils.adicionaMensagemDeErro("Matricula já cadastrada!");
+			return;
+		}else if (alunoRetornoCartao != null) {
+			facesUtils.adicionaMensagemDeErro("Cartao já cadastrado!");
 			return;
 		}
 			
@@ -86,6 +97,9 @@ public class AlunoBean {
 		} else if(Util.isNullOrEmpty(aluno.getNome())){
 			facesUtils.adicionaMensagemDeErro("Nome Inválido!");
 			return true;
+		} else if(Util.isNullOrEmpty(aluno.getCartao())){
+			facesUtils.adicionaMensagemDeErro("Cartao Inválido!");
+			return true;
 		} else if(Util.isNullOrEmpty(aluno.getUsuario().getUsername())){
 			facesUtils.adicionaMensagemDeErro("Login Inválido!");
 			return true;
@@ -105,6 +119,12 @@ public class AlunoBean {
 		
 		alunoDao.update(aluno);
 		facesUtils.adicionaMensagemDeInformacao("Aluno atualizado com sucesso!");
+		lista();
+	}
+	
+	public void remove() {
+		alunoDao.delete(aluno);
+		facesUtils.adicionaMensagemDeInformacao("Aluno removido com sucesso!");
 		lista();
 	}
 	

@@ -45,7 +45,7 @@ public class Usuario implements Serializable, UserDetails {
 	@Column(nullable = false)
 	private String nome;
 
-	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Role> roles;
 
 	@Override

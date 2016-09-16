@@ -22,6 +22,8 @@ public class HomeBean {
 	private Professor professor = new Professor();
 	private Aluno aluno = new Aluno();
 	
+	private Turma alunoTurma = new Turma();
+	
 	private List<Turma> turmas = new ArrayList<Turma>();
 	private List<Aluno> alunos = new ArrayList<Aluno>();
 	
@@ -55,7 +57,7 @@ public class HomeBean {
 
 	private void processarAluno(Usuario usuario) {
 		aluno = alunoDao.obterAlunoPeloLogin(usuario);
-		turmas = aluno.getTurmas();
+		alunoTurma = aluno.getTurma();
 	}
 	
 	private void processarProfessor(Usuario usuario) {

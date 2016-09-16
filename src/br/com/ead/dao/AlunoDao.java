@@ -34,7 +34,7 @@ public class AlunoDao {
 	}
 	
 	public void delete(Aluno aluno){
-		entityManager.remove(aluno); 
+		entityManager.remove(entityManager.merge(aluno)); 
 	}
 	
 	public List<Aluno> listAll(){
@@ -50,6 +50,18 @@ public class AlunoDao {
 		String jpql = "SELECT a FROM Aluno a where a.matricula = :matricula ";
 		TypedQuery<Aluno> query = entityManager.createQuery(jpql, Aluno.class);
 		query.setParameter("matricula", matricula);
+		
+		try {
+			return query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
+	public Aluno pesquisarAlunoPorCartao(String cartao){
+		String jpql = "SELECT a FROM Aluno a where a.cartao = :cartao ";
+		TypedQuery<Aluno> query = entityManager.createQuery(jpql, Aluno.class);
+		query.setParameter("cartao", cartao);
 		
 		try {
 			return query.getSingleResult();
