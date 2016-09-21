@@ -23,8 +23,11 @@ public class TurmaBean {
 	private long idProfessor;
 	private List<Professor> professores = new ArrayList<Professor>();
 	private Long[] selectedAlunos;
-    private List<Aluno> alunos = new ArrayList<Aluno>();
-	
+	private Long[] deselectedAlunos;
+	private List<Aluno> alunos = new ArrayList<Aluno>();
+	private List<Aluno> alunosRemovidos = new ArrayList<Aluno>();
+	private Aluno aluno = new Aluno();
+
 	private static final String ESTADO_DE_NOVO = "_novo";
 	private static final String ESTADO_DE_EDICAO = "_edicao";
 	private static final String ESTADO_DE_PESQUISA = "_pesquisa";
@@ -41,20 +44,20 @@ public class TurmaBean {
 	private ProfessorDao professorDao;
 	@ManagedProperty("#{alunoDao}")
 	private AlunoDao alunoDao;
-	
+
 	public void lista() {
-		
+
 		turmas = new ArrayList<Turma>();
-		if(turma != null && !Util.isNullOrEmpty(turma.getDescricao())){
+		if (turma != null && !Util.isNullOrEmpty(turma.getDescricao())) {
 			turmas = turmaDao.pesquisarTurmaPorDescricao(turma.getDescricao());
 		} else {
 			turmas = turmaDao.listAll();
 		}
-		
+
 		turma = new Turma();
 		setState(ESTADO_DE_PESQUISA);
 	}
-	
+
 	public void preparaParaAdicionar() {
 		turma = new Turma();
 		professores = professorDao.listAll();
@@ -62,31 +65,59 @@ public class TurmaBean {
 		facesUtils.cleanSubmittedValues(form);
 		setState(ESTADO_DE_NOVO);
 	}
-	
+
 	public void adiciona() {
-		if(turmaInvalida())
+		if (turmaInvalida())
 			return;
-		
+
 		adicionaProfessor();
-		adicionaAlunos();
+		if (selectedAlunos != null) {
+			adicionaAlunos();
+		}
+		
 		turmaDao.save(turma);
-		facesUtils.adicionaMensagemDeInformacao("Turma adicionada com sucesso!");
+		facesUtils
+				.adicionaMensagemDeInformacao("Turma adicionada com sucesso!");
 		lista();
 	}
 
 	private void adicionaProfessor() {
 		turma.setProfessor(professorDao.load(idProfessor));
 	}
-	
+
 	private void adicionaAlunos() {
-		turma.setAlunos(alunoDao.pesquisarAlunosPorId(selectedAlunos));
+
+		alunos = alunoDao.pesquisarAlunosPorId(selectedAlunos);
+		for (Aluno aluno : alunos) {
+			aluno.setTurma(turma);
+		}
+		// alunosRemovidos = turma.getAlunos();
+		turma.setAlunos(alunos);
+	}
+	
+	private void removerAlunos() {
+		//selectedAlunos = null;
+		System.out.println("------------------------------------" + deselectedAlunos.toString()); 
+		alunos = alunoDao.pesquisarAlunosPorId(deselectedAlunos);
+		for (Aluno aluno : alunos) {
+			aluno.setTurma(null);
+		}
+		// alunosRemovidos = turma.getAlunos();
+		//turma.setAlunos(alunos);
 	}
 
 	private boolean turmaInvalida() {
-		if(Util.isNullOrEmpty(turma.getDescricao())){
+		if (Util.isNullOrEmpty(turma.getDescricao())) {
 			facesUtils.adicionaMensagemDeErro("Descrição Inválida!");
 			return true;
+		} else if (Util.isNullOrEmpty(turma.getTurno())) {
+			facesUtils.adicionaMensagemDeErro("Selecione o turno");
+			return true;
 		}
+		// }else if(turma.getAlunos() == null){
+		// facesUtils.adicionaMensagemDeErro("Adicione pelo menos um aluno");
+		// return true;
+		// }
 		return false;
 	}
 
@@ -96,13 +127,13 @@ public class TurmaBean {
 		professores = professorDao.listAll();
 		alunos = alunoDao.listAll();
 		this.turma = turmaDao.load(turma.getId());
-		
-		if(this.turma.getProfessor() != null)
+
+		if (this.turma.getProfessor() != null)
 			idProfessor = this.turma.getProfessor().getId();
-		
-		if(this.turma.getAlunos() != null && this.turma.getAlunos().size() > 0)
+
+		if (this.turma.getAlunos() != null && this.turma.getAlunos().size() > 0)
 			preencherListaDeIds(this.turma.getAlunos());
-		
+
 		facesUtils.cleanSubmittedValues(form);
 		setState(ESTADO_DE_EDICAO);
 	}
@@ -114,17 +145,76 @@ public class TurmaBean {
 		}
 	}
 
-	public void altera() {		
-		if(turmaInvalida())
-			return; 
-		
+	public void altera() {
+
+		if (turmaInvalida())
+			return;
 		adicionaProfessor();
-		adicionaAlunos();
+		//if (selectedAlunos != null) {
+			adicionaAlunos();
+			removerAlunos();
+		//}
 		turmaDao.update(turma);
 		facesUtils.adicionaMensagemDeInformacao("Turma atualizada com sucesso!");
 		lista();
 	}
-	
+
+	public List<Aluno> complete(String nome) {
+		System.out.println(nome);
+
+		List<Aluno> queryResult = new ArrayList<Aluno>();
+
+		if (alunos == null) {
+			alunos = alunoDao.listAll();
+		}
+
+		if (state.equals(ESTADO_DE_EDICAO))
+			alunos.removeAll(turma.getAlunos());
+		else {
+			List<Aluno> alunoTemp = new ArrayList<Aluno>();
+			turma.setAlunos(alunoTemp);
+		}
+
+		for (Aluno aluno : alunos) {
+			if (aluno.getNome().toLowerCase().contains(nome.toLowerCase())) {
+				queryResult.add(aluno);
+			}
+		}
+
+		return queryResult;
+	}
+
+	public void removerAluno(Aluno aluno) {
+		turma.getAlunos().remove(aluno);
+		alunosRemovidos.add(aluno);
+		preencherListaDeIdsToDelete(alunosRemovidos);
+		System.out.println("------*******************----------" + alunosRemovidos.toString()); 
+		facesUtils.adicionaMensagemDeInformacao("Aluno removido");
+	}
+
+	private void preencherListaDeIdsToDelete(List<Aluno> alunos) {
+		deselectedAlunos = new Long[alunos.size()];
+		for (int i = 0; i < deselectedAlunos.length; i++) {
+			deselectedAlunos[i] = alunos.get(i).getId();
+		}
+		
+	}
+
+	public void addAluno() {
+		List<Long> turmaAlunosId = new ArrayList<Long>();
+		for (Aluno turmaAlunos : turma.getAlunos()) {
+			turmaAlunosId.add(turmaAlunos.getId());
+		}
+		if (turmaAlunosId.contains(aluno.getId())) {
+			facesUtils.adicionaMensagemDeInformacao("Aluno ja foi inserido");
+		} else {
+			turma.getAlunos().add(aluno);
+			preencherListaDeIds(turma.getAlunos());
+			facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso");
+		}
+
+	}
+
 	public void voltar() {
 		this.turma = new Turma();
 		facesUtils.cleanSubmittedValues(form);
@@ -238,5 +328,13 @@ public class TurmaBean {
 	public void setAlunoDao(AlunoDao alunoDao) {
 		this.alunoDao = alunoDao;
 	}
-	
+
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
+	}
+
 }
