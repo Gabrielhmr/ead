@@ -23,9 +23,8 @@ public class TurmaBean {
 	private long idProfessor;
 	private List<Professor> professores = new ArrayList<Professor>();
 	private Long[] selectedAlunos;
-	private Long[] deselectedAlunos;
 	private List<Aluno> alunos = new ArrayList<Aluno>();
-	private List<Aluno> alunosRemovidos = new ArrayList<Aluno>();
+	private List<Aluno> alunosBeforeChange = new ArrayList<Aluno>();
 	private Aluno aluno = new Aluno();
 
 	private static final String ESTADO_DE_NOVO = "_novo";
@@ -85,25 +84,25 @@ public class TurmaBean {
 		turma.setProfessor(professorDao.load(idProfessor));
 	}
 
-	private void adicionaAlunos() {
+	private void adicionaAlunos() {		
+		if(state.equals(ESTADO_DE_EDICAO)){
+			alunosBeforeChange = alunoDao.pesquisarAlunosPorId(selectedAlunos);
+		}
+		 
+		preencherListaDeIds(turma.getAlunos());
 		alunos = alunoDao.pesquisarAlunosPorId(selectedAlunos);
 		for (Aluno aluno : alunos) {
 			aluno.setTurma(turma);
 		}
-		alunosRemovidos = turma.getAlunos();
-		turma.setAlunos(alunos);
-		
+
 	}
 	
 	private void removerAlunos() {
-		//alunos = alunoDao.pesquisarAlunosPorId(deselectedAlunos);
-		preencherListaDeIdsToDelete(alunosRemovidos);
-		alunos.removeAll(alunoDao.pesquisarAlunosPorId(deselectedAlunos));
-		for (Aluno aluno : alunos) {
+		alunosBeforeChange.removeAll(alunos);
+		for (Aluno aluno : alunosBeforeChange) {
 			aluno.setTurma(null);
 		}
-		// alunosRemovidos = turma.getAlunos();
-		//turma.setAlunos(alunos);
+		
 	}
 
 	private boolean turmaInvalida() {
@@ -185,19 +184,8 @@ public class TurmaBean {
 	}
 
 	public void removerAluno(Aluno aluno) {
-		turma.getAlunos().remove(aluno);
-		alunosRemovidos.add(aluno);
-		preencherListaDeIdsToDelete(this.alunosRemovidos);
-		System.out.println("------*******************----------" + alunosRemovidos.toString()); 
+		turma.getAlunos().remove(aluno); 
 		facesUtils.adicionaMensagemDeInformacao("Aluno removido");
-	}
-
-	private void preencherListaDeIdsToDelete(List<Aluno> alunos) {
-		deselectedAlunos = new Long[alunos.size()];
-		for (int i = 0; i < deselectedAlunos.length; i++) {
-			deselectedAlunos[i] = alunos.get(i).getId();
-		}
-		
 	}
 
 	public void addAluno() {
@@ -209,7 +197,6 @@ public class TurmaBean {
 			facesUtils.adicionaMensagemDeInformacao("Aluno ja foi inserido");
 		} else {
 			turma.getAlunos().add(aluno);
-			preencherListaDeIds(turma.getAlunos());
 			facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso");
 		}
 
