@@ -86,19 +86,19 @@ public class TurmaBean {
 	}
 
 	private void adicionaAlunos() {
-
 		alunos = alunoDao.pesquisarAlunosPorId(selectedAlunos);
 		for (Aluno aluno : alunos) {
 			aluno.setTurma(turma);
 		}
-		// alunosRemovidos = turma.getAlunos();
+		alunosRemovidos = turma.getAlunos();
 		turma.setAlunos(alunos);
+		
 	}
 	
 	private void removerAlunos() {
-		//selectedAlunos = null;
-		System.out.println("------------------------------------" + deselectedAlunos.toString()); 
-		alunos = alunoDao.pesquisarAlunosPorId(deselectedAlunos);
+		//alunos = alunoDao.pesquisarAlunosPorId(deselectedAlunos);
+		preencherListaDeIdsToDelete(alunosRemovidos);
+		alunos.removeAll(alunoDao.pesquisarAlunosPorId(deselectedAlunos));
 		for (Aluno aluno : alunos) {
 			aluno.setTurma(null);
 		}
@@ -187,7 +187,7 @@ public class TurmaBean {
 	public void removerAluno(Aluno aluno) {
 		turma.getAlunos().remove(aluno);
 		alunosRemovidos.add(aluno);
-		preencherListaDeIdsToDelete(alunosRemovidos);
+		preencherListaDeIdsToDelete(this.alunosRemovidos);
 		System.out.println("------*******************----------" + alunosRemovidos.toString()); 
 		facesUtils.adicionaMensagemDeInformacao("Aluno removido");
 	}
