@@ -47,7 +47,7 @@ public class TurmaBean {
 	public void lista() {
 
 		turmas = new ArrayList<Turma>();
-		if (turma != null && !Util.isNullOrEmpty(turma.getDescricao())) {
+		if (turma.isHabilitado() == true && !Util.isNullOrEmpty(turma.getDescricao())) {
 			turmas = turmaDao.pesquisarTurmaPorDescricao(turma.getDescricao());
 		} else {
 			turmas = turmaDao.listAll();
@@ -59,6 +59,8 @@ public class TurmaBean {
 
 	public void preparaParaAdicionar() {
 		turma = new Turma();
+		List<Aluno> alunoTemp = new ArrayList<Aluno>();
+		turma.setAlunos(alunoTemp);
 		professores = professorDao.listAll();
 		alunos = alunoDao.listAll();
 		facesUtils.cleanSubmittedValues(form);
@@ -70,9 +72,7 @@ public class TurmaBean {
 			return;
 
 		adicionaProfessor();
-		if (selectedAlunos != null) {
-			adicionaAlunos();
-		}
+		adicionaAlunos();
 		
 		turmaDao.save(turma);
 		facesUtils
@@ -85,7 +85,7 @@ public class TurmaBean {
 	}
 
 	private void adicionaAlunos() {		
-		if(state.equals(ESTADO_DE_EDICAO)){
+		if(selectedAlunos != null){
 			alunosBeforeChange = alunoDao.pesquisarAlunosPorId(selectedAlunos);
 		}
 		 
@@ -112,11 +112,10 @@ public class TurmaBean {
 		} else if (Util.isNullOrEmpty(turma.getTurno())) {
 			facesUtils.adicionaMensagemDeErro("Selecione o turno");
 			return true;
-		}
-		// }else if(turma.getAlunos() == null){
-		// facesUtils.adicionaMensagemDeErro("Adicione pelo menos um aluno");
-		// return true;
-		// }
+		} else if(turma.getAlunos().size() == 0){
+			facesUtils.adicionaMensagemDeErro("Adicione pelo menos um aluno");
+			return true;
+		 }
 		return false;
 	}
 
@@ -149,10 +148,8 @@ public class TurmaBean {
 		if (turmaInvalida())
 			return;
 		adicionaProfessor();
-		//if (selectedAlunos != null) {
-			adicionaAlunos();
-			removerAlunos();
-		//}
+		adicionaAlunos();
+		removerAlunos();
 		turmaDao.update(turma);
 		facesUtils.adicionaMensagemDeInformacao("Turma atualizada com sucesso!");
 		lista();
@@ -167,12 +164,7 @@ public class TurmaBean {
 			alunos = alunoDao.listAll();
 		}
 
-		if (state.equals(ESTADO_DE_EDICAO))
-			alunos.removeAll(turma.getAlunos());
-		else {
-			List<Aluno> alunoTemp = new ArrayList<Aluno>();
-			turma.setAlunos(alunoTemp);
-		}
+		alunos.removeAll(turma.getAlunos());
 
 		for (Aluno aluno : alunos) {
 			if (aluno.getNome().toLowerCase().contains(nome.toLowerCase())) {
@@ -200,6 +192,13 @@ public class TurmaBean {
 			facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso");
 		}
 
+	}
+	
+	public void remove() {
+		turma.setHabilitado(false);
+		turmaDao.update(turma);
+		facesUtils.adicionaMensagemDeInformacao("Turma removida com sucesso!");
+		lista();
 	}
 
 	public void voltar() {

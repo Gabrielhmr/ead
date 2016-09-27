@@ -32,11 +32,11 @@ public class TurmaDao {
 	}
 	
 	public void delete(Turma turma){
-		entityManager.remove(turma); 
+		entityManager.remove(entityManager.merge(turma)); 
 	}
 	
 	public List<Turma> listAll(){
-		return entityManager.createQuery("from Turma where 1 = 1 order by descricao ", Turma.class).getResultList();
+		return entityManager.createQuery("from Turma where 1 = 1 and habilitado != false order by descricao ", Turma.class).getResultList();
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

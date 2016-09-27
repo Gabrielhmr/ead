@@ -77,6 +77,16 @@
 										<f:ajax render="@form" />
 									</h:commandButton>
 								</div>
+								<div style="margin-left: 10px; float: left;">
+									<h:commandButton value="#{text['label.remover']}"
+										action="#{turmaBean.remove}"
+										onclick="return confirm('Deseja realmente remover esta turma?');"
+										styleClass="botao-default">
+										<f:ajax render="@form :mensagens" />
+										<f:setPropertyActionListener target="#{turmaBean.turma}"
+											value="#{turma}" />
+									</h:commandButton>
+								</div>
 
 							</p:column>
 						</p:dataTable>
@@ -126,7 +136,7 @@
 							<h:outputLabel for="aluno" value="Alunos: " />
 							<p:autoComplete id="aluno" forceSelection="true"
 								minQueryLength="3" value="#{turmaBean.aluno}" label="Aluno"
-								 var="aluno" itemLabel="#{aluno.nome}"
+								  var="aluno" itemLabel="#{aluno.nome}"
 								itemValue="#{aluno}" completeMethod="#{turmaBean.complete}"  converter="alunoConverter"
 								dropdown="true" />
 							
