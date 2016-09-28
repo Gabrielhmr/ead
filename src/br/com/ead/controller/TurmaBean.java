@@ -3,6 +3,7 @@ package br.com.ead.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIForm;
@@ -43,6 +44,12 @@ public class TurmaBean {
 	private ProfessorDao professorDao;
 	@ManagedProperty("#{alunoDao}")
 	private AlunoDao alunoDao;
+	
+	@PostConstruct
+	public void init(){
+		turmas = new ArrayList<Turma>();
+		turmas = turmaDao.listAll();
+	}
 
 	public void lista() {
 
@@ -59,8 +66,8 @@ public class TurmaBean {
 
 	public void preparaParaAdicionar() {
 		turma = new Turma();
-		List<Aluno> alunoTemp = new ArrayList<Aluno>();
-		turma.setAlunos(alunoTemp);
+		alunos = new ArrayList<Aluno>();
+		turma.setAlunos(alunos);
 		professores = professorDao.listAll();
 		alunos = alunoDao.listAll();
 		facesUtils.cleanSubmittedValues(form);
@@ -75,8 +82,7 @@ public class TurmaBean {
 		adicionaAlunos();
 		
 		turmaDao.save(turma);
-		facesUtils
-				.adicionaMensagemDeInformacao("Turma adicionada com sucesso!");
+		facesUtils.adicionaMensagemDeInformacao("Turma adicionada com sucesso!");
 		lista();
 	}
 

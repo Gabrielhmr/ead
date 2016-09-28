@@ -123,7 +123,8 @@ public class AlunoBean {
 	}
 	
 	public void remove() {
-		alunoDao.delete(aluno);
+		aluno.setHabilitado(false);
+		alunoDao.update(aluno);
 		facesUtils.adicionaMensagemDeInformacao("Aluno removido com sucesso!");
 		lista();
 	}

@@ -32,6 +32,9 @@ public class Aluno {
 	@JoinColumn(name="turma_id")
 	private Turma turma;
 	
+	@Column
+	private boolean habilitado = true;
+	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Usuario usuario = new Usuario();
 	
@@ -73,6 +76,13 @@ public class Aluno {
 	}
 	public void setTurma(Turma turma) {
 		this.turma = turma;
+	}
+	
+	public boolean isHabilitado() {
+		return habilitado;
+	}
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
 	}
 	
 	public void preencherUsuario(List<Role> roles) {

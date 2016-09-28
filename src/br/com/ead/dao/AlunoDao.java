@@ -1,6 +1,5 @@
 package br.com.ead.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -38,7 +37,7 @@ public class AlunoDao {
 	}
 	
 	public List<Aluno> listAll(){
-		return entityManager.createQuery("from Aluno where 1 = 1 order by nome ", Aluno.class).getResultList();
+		return entityManager.createQuery("from Aluno where 1 = 1 and habilitado != false order by nome ", Aluno.class).getResultList();
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
