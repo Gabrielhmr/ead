@@ -1,6 +1,7 @@
 package br.com.ead.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -39,6 +40,7 @@ public class HomeBean {
 	private TurmaDao turmaDao;
 	@ManagedProperty("#{usuarioWeb}")
     private UsuarioWeb usuarioWeb;
+	private Date date11;
 	
 	@PostConstruct
 	public void init(){
@@ -144,5 +146,13 @@ public class HomeBean {
 	public void setUsuarioWeb(UsuarioWeb usuarioWeb) {
 		this.usuarioWeb = usuarioWeb;
 	}
+	
+	   public Date getDate11() {
+	        return date11;
+	    }
+	 
+	    public void setDate11(Date date11) {
+	        this.date11 = date11;
+	    }
 	
 }

@@ -9,7 +9,7 @@
 
 <ui:composition template="/template/template_padrao.xhtml">
 
-	<ui:define name="conteudo">	
+	<ui:define name="conteudo">
 
 		<p />
 		<p:outputPanel autoUpdate="true">
@@ -17,50 +17,99 @@
 				<p:messages id="messages" showDetail="false" autoUpdate="true" />
 			</h:panelGroup>
 		</p:outputPanel>
-		
+
 		<h:form binding="#{roleBean.form}" id="form" prependId="false">
 
-				<p />
-				<p:panel header="Dashboard">
-					
-					<t:saveState value="#{homeBean.aluno}" />
-					<t:saveState value="#{homeBean.professor}" />
-					<t:saveState value="#{homeBean.turmas}" />
+			<p />
+			<p:panel header="Dashboard">
+
+				<t:saveState value="#{homeBean.aluno}" />
+				<t:saveState value="#{homeBean.professor}" />
+				<t:saveState value="#{homeBean.turmas}" />
 
 
-					<div style="margin-left: 5px; float: left;" >
-						<h:outputLabel value="Nome: #{homeBean.aluno.nome}" size="60" rendered="#{usuarioWeb.usuarioAluno}"/>
-						<h:outputLabel value="Nome: #{homeBean.professor.nome}" size="60" rendered="#{usuarioWeb.usuarioProfessor}"/>
-					</div>
-					
-					<div style="margin-left: 5px; float: left;" >
-						<h:outputLabel value="Matrícula: #{homeBean.aluno.matricula}" size="15" rendered="#{usuarioWeb.usuarioAluno}" />
-					</div>
-					
-					<div class="clear"></div>
-					<br />
+				<div style="margin-left: 5px; float: left;">
+					<h:outputLabel value="Nome: #{homeBean.aluno.nome}" size="60"
+						rendered="#{usuarioWeb.usuarioAluno}" />
+					<h:outputLabel value="Nome: #{homeBean.professor.nome}" size="60"
+						rendered="#{usuarioWeb.usuarioProfessor}" />
+				</div>
+
+				<div style="margin-left: 5px; float: left;">
+					<h:outputLabel value="Matrícula: #{homeBean.aluno.matricula}"
+						size="15" rendered="#{usuarioWeb.usuarioAluno}" />
+				</div>
+
+				<div class="clear"></div>
+				<br />
+
+				<p:fieldset legend="Controle de Acesso">
+									
+					<p:panelGrid style="margin-top:20px">
+						<f:facet name="header">
+							 <p:row>
+            					<p:column colspan="2">Horarios</p:column>
+            					<p:column colspan="2">Turno</p:column>
+        					</p:row>
+						</f:facet>
 						
-					<p:dataTable id="tabela" value="#{homeBean.turmas}"
-						var="turma" rowClasses="odd, even"
-						emptyMessage="#{text['table.empty']}" >
+    					<p:row>
+    						 <p:column style="font-weight: bold;">
+    						 	<p:outputLabel for="m_entrada" value="Entrada:" />
+        						<p:calendar id="m_entrada" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+    						 </p:column>
+        					 <p:column style="font-weight: bold;">
+        					 	<p:outputLabel for="m_saida" value="Saida:" />
+        						<p:calendar id="m_saida" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        					 </p:column>
+        					 <p:column  style="font-weight: bold;">MANHA</p:column>
+    					</p:row>
+    					<p:row>
+    						 <p:column style="font-weight: bold;">
+    						 	<p:outputLabel for="t_entrada" value="Entrada:" />
+        						<p:calendar id="t_entrada" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+    						 </p:column>
+        					 <p:column style="font-weight: bold;">
+        					 	<p:outputLabel for="t_saida" value="Saida:" />
+        						<p:calendar id="t_saida" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        					 </p:column>
+        					 <p:column  style="font-weight: bold;">TARDE</p:column>
+    					</p:row>
+    					<p:row>
+    						 <p:column style="font-weight: bold;">
+    						 	<p:outputLabel for="tolerancia" value="Tolerancia:" />
+        						<p:calendar id="tolerancia" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+    						 </p:column>
+    					</p:row>
+					</p:panelGrid>
+						<p:commandButton
+							value="Salvar Horarios" action="#{homeBean.addAluno()}"  ajax="false" update="tabelaAluno"/>
+					
+				</p:fieldset>
 
-						<p:column headerText="Turmas">
-							<h:outputText value="#{turma.descricao}" />
-						</p:column>
-							
-					</p:dataTable>
-					
-					<div class="clear"></div>
-					<br />
-					
-					<h3 style="margin-top:1">LINK DO YOUTUBE</h3>
-					<p:media value="http://www.youtube.com/v/m6DDyV7XSMA" width="420" height="315" player="flash"/>
-					
-					
+				<br />
 
-				</p:panel>
+				<p:dataTable id="tabela" value="#{homeBean.turmas}" var="turma"
+					rowClasses="odd, even" emptyMessage="#{text['table.empty']}">
 
-			</h:form>
+					<p:column headerText="Turmas">
+						<h:outputText value="#{turma.descricao}" />
+					</p:column>
+
+				</p:dataTable>
+
+				<div class="clear"></div>
+				<br />
+
+				<h3 style="margin-top: 1">LINK DO YOUTUBE</h3>
+				<p:media value="http://www.youtube.com/v/m6DDyV7XSMA" width="420"
+					height="315" player="flash" />
+
+
+
+			</p:panel>
+
+		</h:form>
 
 	</ui:define>
 
