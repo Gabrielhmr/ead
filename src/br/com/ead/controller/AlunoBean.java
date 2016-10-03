@@ -68,6 +68,15 @@ public class AlunoBean {
 	public void adiciona() {
 		if(alunoInvalido())
 			return;
+		
+		verificaAluno();	
+		preencherUsuario();
+		alunoDao.save(aluno);
+		facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso!");
+		lista();
+	}
+	
+	private void verificaAluno() {
 		Aluno alunoRetornoMatricula = alunoDao.pesquisarAlunoPorMatricula(aluno.getMatricula());
 		Aluno alunoRetornoCartao = alunoDao.pesquisarAlunoPorCartao(aluno.getCartao());
 		if(alunoRetornoMatricula != null){
@@ -77,11 +86,6 @@ public class AlunoBean {
 			facesUtils.adicionaMensagemDeErro("Cartao já cadastrado!");
 			return;
 		}
-			
-		preencherUsuario();
-		alunoDao.save(aluno);
-		facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso!");
-		lista();
 	}
 
 	private void preencherUsuario() {
@@ -117,6 +121,7 @@ public class AlunoBean {
 		if(alunoInvalido())
 			return; 
 		
+		verificaAluno();
 		alunoDao.update(aluno);
 		facesUtils.adicionaMensagemDeInformacao("Aluno atualizado com sucesso!");
 		lista();

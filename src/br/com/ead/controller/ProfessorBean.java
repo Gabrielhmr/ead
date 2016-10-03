@@ -3,12 +3,15 @@ package br.com.ead.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIForm;
 
 import br.com.ead.dao.ProfessorDao;
 import br.com.ead.dao.RoleDao;
+import br.com.ead.model.Aluno;
+import br.com.ead.model.Professor;
 import br.com.ead.model.Professor;
 import br.com.ead.model.Role;
 import br.com.ead.util.FacesUtils;
@@ -34,6 +37,12 @@ public class ProfessorBean {
 	@ManagedProperty("#{roleDao}")
 	private RoleDao roleDao;
 	
+	@PostConstruct
+	public void init(){
+		professores = new ArrayList<Professor>();
+		professores = professorDao.listAll();
+	}
+	
 	public void lista() {
 		
 		professores = new ArrayList<Professor>();
@@ -56,11 +65,20 @@ public class ProfessorBean {
 	public void adiciona() {
 		if(professorInvalido())
 			return;
-			
+		
+		verificaProfessor();
 		preencherUsuario();
 		professorDao.save(professor);
 		facesUtils.adicionaMensagemDeInformacao("Professor adicionado com sucesso!");
 		lista();
+	}
+	
+	private void verificaProfessor() {
+		Professor professorRetornoCartao = professorDao.pesquisarProfessorPorCartao(professor.getCartao());	
+		if (professorRetornoCartao != null) {
+			facesUtils.adicionaMensagemDeErro("Cartao já cadastrado!");
+			return;
+		}
 	}
 
 	private void preencherUsuario() {
@@ -76,6 +94,9 @@ public class ProfessorBean {
 		} else if(Util.isNullOrEmpty(professor.getUsuario().getUsername())){
 			facesUtils.adicionaMensagemDeErro("Login Inválido!");
 			return true;
+		}else if(Util.isNullOrEmpty(professor.getCartao())){
+			facesUtils.adicionaMensagemDeErro("Cartao Inválido!");
+			return true;
 		}
 		return false;
 	}
@@ -90,6 +111,7 @@ public class ProfessorBean {
 		if(professorInvalido())
 			return; 
 		
+		verificaProfessor();
 		professorDao.update(professor);
 		facesUtils.adicionaMensagemDeInformacao("Professor atualizado com sucesso!");
 		lista();

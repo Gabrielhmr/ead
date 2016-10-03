@@ -68,6 +68,10 @@
 								<h:outputText value="#{professor.nome}" />
 							</p:column>
 							
+							<p:column headerText="	Cartão">
+								<h:outputText value="#{professor.cartao}" />
+							</p:column>
+							
 							<p:column headerText="Ações">
 								<div style="margin-left: 10px; float: left;">
 									<h:commandButton value="#{text['label.editar']}"
@@ -93,6 +97,11 @@
 							</div>
 
 							<div class="clear"></div>
+							
+							<div style="margin-left: 10px; float: left;">
+								<h:outputLabel value="Cartao" for="cartao" />
+								<p:inputText id="cartao" value="#{professorBean.professor.cartao}" />
+							</div>
 
 							<div style="margin-left: 10px; float: left;">
 								<h:outputLabel value="Login" for="login" />
