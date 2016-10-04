@@ -7,12 +7,10 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIForm;
 
-import br.com.ead.dao.AlunoDao;
 import br.com.ead.dao.HorarioDao;
-import br.com.ead.model.Aluno;
+
 import br.com.ead.model.Horario;
 import br.com.ead.util.FacesUtils;
-import br.com.ead.util.Util;
 
 
 @ManagedBean

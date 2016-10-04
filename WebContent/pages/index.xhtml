@@ -26,7 +26,7 @@
 				<t:saveState value="#{homeBean.aluno}" />
 				<t:saveState value="#{homeBean.professor}" />
 				<t:saveState value="#{homeBean.turmas}" />
-
+				<t:saveState value="#{homeBean.horario}" />
 
 				<div style="margin-left: 5px; float: left;">
 					<h:outputLabel value="Nome: #{homeBean.aluno.nome}" size="60"
@@ -56,34 +56,34 @@
     					<p:row>
     						 <p:column style="font-weight: bold;">
     						 	<p:outputLabel for="m_entrada" value="Entrada:" />
-        						<p:calendar id="m_entrada" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        						<p:calendar id="m_entrada" value="#{homeBean.horario.manhaEntrada}" pattern="HH:mm" timeOnly="true"  />
     						 </p:column>
         					 <p:column style="font-weight: bold;">
         					 	<p:outputLabel for="m_saida" value="Saida:" />
-        						<p:calendar id="m_saida" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        						<p:calendar id="m_saida" value="#{homeBean.horario.manhaSaida}" pattern="HH:mm" timeOnly="true"  />
         					 </p:column>
         					 <p:column  style="font-weight: bold;">MANHA</p:column>
     					</p:row>
     					<p:row>
     						 <p:column style="font-weight: bold;">
     						 	<p:outputLabel for="t_entrada" value="Entrada:" />
-        						<p:calendar id="t_entrada" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        						<p:calendar id="t_entrada" value="#{homeBean.horario.tardeEntrada}" pattern="HH:mm" timeOnly="true"  />
     						 </p:column>
         					 <p:column style="font-weight: bold;">
         					 	<p:outputLabel for="t_saida" value="Saida:" />
-        						<p:calendar id="t_saida" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        						<p:calendar id="t_saida" value="#{homeBean.horario.tardeSaida}" pattern="HH:mm" timeOnly="true"  />
         					 </p:column>
         					 <p:column  style="font-weight: bold;">TARDE</p:column>
     					</p:row>
     					<p:row>
     						 <p:column style="font-weight: bold;">
     						 	<p:outputLabel for="tolerancia" value="Tolerancia:" />
-        						<p:calendar id="tolerancia" value="#{calendarView.date11}" pattern="HH:mm" timeOnly="true"  />
+        						<p:calendar id="tolerancia" value="#{homeBean.horario.tolerancia}" pattern="HH:mm" timeOnly="true"  />
     						 </p:column>
     					</p:row>
 					</p:panelGrid>
 						<p:commandButton
-							value="Salvar Horarios" action="#{homeBean.addAluno()}"  ajax="false" update="tabelaAluno"/>
+							value="Salvar Horarios" action="#{homeBean.atualizarHorario()}"  ajax="false"/>
 					
 				</p:fieldset>
 

@@ -3,13 +3,14 @@ package br.com.ead.model;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.TemporalType;
 import javax.persistence.Temporal;
 
-
+@Entity
 public class Horario {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -30,6 +31,11 @@ public class Horario {
 	@Column
 	@Temporal(TemporalType.TIME)
 	private Date tardeSaida;
+	
+	@Column
+	@Temporal(TemporalType.TIME)
+	private Date tolerancia;
+
 
 	public Long getId() {
 		return id;
@@ -69,6 +75,15 @@ public class Horario {
 
 	public void setTardeSaida(Date tardeSaida) {
 		this.tardeSaida = tardeSaida;
+	}
+	
+
+	public Date getTolerancia() {
+		return tolerancia;
+	}
+
+	public void setTolerancia(Date tolerancia) {
+		this.tolerancia = tolerancia;
 	}
 	
 	

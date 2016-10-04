@@ -10,9 +10,11 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.component.UIForm;
 
 import br.com.ead.dao.AlunoDao;
+import br.com.ead.dao.HorarioDao;
 import br.com.ead.dao.ProfessorDao;
 import br.com.ead.dao.TurmaDao;
 import br.com.ead.model.Aluno;
+import br.com.ead.model.Horario;
 import br.com.ead.model.Professor;
 import br.com.ead.model.Turma;
 import br.com.ead.model.Usuario;
@@ -22,6 +24,7 @@ import br.com.ead.util.FacesUtils;
 public class HomeBean {
 	private Professor professor = new Professor();
 	private Aluno aluno = new Aluno();
+	private Horario horario = new Horario();
 	
 	private Turma alunoTurma = new Turma();
 	
@@ -38,9 +41,11 @@ public class HomeBean {
 	private ProfessorDao professorDao;
 	@ManagedProperty("#{turmaDao}")
 	private TurmaDao turmaDao;
+	@ManagedProperty("#{horarioDao}")
+	private HorarioDao horarioDao;
 	@ManagedProperty("#{usuarioWeb}")
     private UsuarioWeb usuarioWeb;
-	private Date date11;
+	//private Date date11;
 	
 	@PostConstruct
 	public void init(){
@@ -53,8 +58,11 @@ public class HomeBean {
 		
 	}
 	
+
+
 	private void processarAdmin() {
 		turmas = turmaDao.listAll();
+		horario = horarioDao.load((long) 1);
 	}
 
 	private void processarAluno(Usuario usuario) {
@@ -66,6 +74,14 @@ public class HomeBean {
 		professor = professorDao.obterProfessorPeloLogin(usuario);
 		turmas = turmaDao.pesquisarTurmasPorProfessor(professor);
 	}
+	
+	public void atualizarHorario() {
+		horarioDao.update(horario);
+		facesUtils.adicionaMensagemDeInformacao("Horarios atualizados com sucesso!");
+		
+	}
+	
+	
 
 	public Professor getProfessor() {
 		return professor;
@@ -138,6 +154,16 @@ public class HomeBean {
 	public void setTurmaDao(TurmaDao turmaDao) {
 		this.turmaDao = turmaDao;
 	}
+	
+
+	public HorarioDao getHorarioDao() {
+		return horarioDao;
+	}
+
+	public void setHorarioDao(HorarioDao horarioDao) {
+		this.horarioDao = horarioDao;
+	}
+
 
 	public UsuarioWeb getUsuarioWeb() {
 		return usuarioWeb;
@@ -147,12 +173,12 @@ public class HomeBean {
 		this.usuarioWeb = usuarioWeb;
 	}
 	
-	   public Date getDate11() {
-	        return date11;
-	    }
-	 
-	    public void setDate11(Date date11) {
-	        this.date11 = date11;
-	    }
+	public Horario getHorario() {
+		return horario;
+	}
+
+	public void setHorario(Horario horario) {
+		this.horario = horario;
+	}
 	
 }
