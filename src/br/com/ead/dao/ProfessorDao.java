@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -58,6 +59,18 @@ public class ProfessorDao {
 	
 	public Professor obterProfessorPeloLogin(Usuario usuario) {
 		return (Professor) getCriteria().add(Restrictions.eq("usuario", usuario)).uniqueResult();
+	}
+	
+	public Professor pesquisarProfessorPorCartao(String cartao){
+		String jpql = "SELECT a FROM Professor a where a.cartao = :cartao ";
+		TypedQuery<Professor> query = entityManager.createQuery(jpql, Professor.class);
+		query.setParameter("cartao", cartao);
+		
+		try {
+			return query.getSingleResult();
+		} catch (Exception e) {
+			return null;
+		}
 	}
 	
 	public Criteria getCriteria(){

@@ -15,8 +15,13 @@ public class Professor {
 	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
+	
 	@Column(length=300)
 	private String nome;
+	
+	@Column(unique = true, length=14)
+	private String cartao;
+	
 	@OneToOne(cascade=CascadeType.ALL)
 	private Usuario usuario = new Usuario();
 	
@@ -32,6 +37,14 @@ public class Professor {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
+	
+	public String getCartao() {
+		return cartao;
+	}
+	public void setCartao(String cartao) {
+		this.cartao = cartao;
+	}
+	
 	public Usuario getUsuario() {
 		return usuario;
 	}
