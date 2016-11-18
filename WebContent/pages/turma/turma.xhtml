@@ -79,7 +79,7 @@
 								</div>
 								<div style="margin-left: 10px; float: left;">
 									<h:commandButton value="#{text['label.remover']}"
-										action="#{turmaBean.remove}"
+										action="#{turmaBean.remove(turma)}"
 										onclick="return confirm('Deseja realmente remover esta turma?');"
 										styleClass="botao-default">
 										<f:ajax render="@form :mensagens" />

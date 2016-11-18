@@ -200,8 +200,12 @@ public class TurmaBean {
 
 	}
 	
-	public void remove() {
+	public void remove(Turma turma) {
+		turma = turmaDao.load(turma.getId());
 		turma.setHabilitado(false);
+		for (Aluno aluno : turma.getAlunos()) {
+			aluno.setTurma(null);
+		}
 		turmaDao.update(turma);
 		facesUtils.adicionaMensagemDeInformacao("Turma removida com sucesso!");
 		lista();
