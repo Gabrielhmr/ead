@@ -81,6 +81,17 @@
 									</h:commandButton>
 								</div>
 								
+								<div style="margin-left: 10px; float: left;">
+									<h:commandButton value="#{text['label.remover']}"
+										action="#{professorBean.remove}"
+										onclick="return confirm('Deseja realmente remover este professor?');"
+										styleClass="botao-default">
+										<f:ajax render="@form :mensagens" />
+										<f:setPropertyActionListener target="#{professorBean.professor}"
+											value="#{professor}" />
+									</h:commandButton>
+								</div>
+								
 							</p:column>
 						</p:dataTable>
 					</t:div>
@@ -103,11 +114,11 @@
 								<p:inputText id="cartao" value="#{professorBean.professor.cartao}" />
 							</div>
 
-							<div style="margin-left: 10px; float: left;">
+							<!-- <div style="margin-left: 10px; float: left;">
 								<h:outputLabel value="Login" for="login" />
 								<p:inputText id="login"
 									value="#{professorBean.professor.usuario.username}" label="login" size="15" />
-							</div>
+							</div> -->
 
 							<div class="clear"></div>
 

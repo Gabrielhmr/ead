@@ -37,7 +37,7 @@ public class ProfessorDao {
 	}
 	
 	public List<Professor> listAll(){
-		return entityManager.createQuery("from Professor where 1 = 1 order by nome ", Professor.class).getResultList();
+		return entityManager.createQuery("from Professor where 1 = 1 and habilitado != false order by nome ", Professor.class).getResultList();
 	}
 	
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

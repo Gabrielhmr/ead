@@ -22,8 +22,11 @@ public class Professor {
 	@Column(unique = true, length=14)
 	private String cartao;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	private Usuario usuario = new Usuario();
+	@Column
+	private boolean habilitado = true;
+	
+	//@OneToOne(cascade=CascadeType.ALL)
+	//private Usuario usuario = new Usuario();
 	
 	public Long getId() {
 		return id;
@@ -45,26 +48,29 @@ public class Professor {
 		this.cartao = cartao;
 	}
 	
-	public Usuario getUsuario() {
-		return usuario;
+	public void setHabilitado(boolean habilitado) {
+		this.habilitado = habilitado;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	public void preencherUsuario(List<Role> roles) {
-		this.usuario.setNome(nome);
-		this.usuario.setMainUser(false);
-		this.usuario.setEnabled(true);
-		this.usuario.setRoles(roles);
-		this.usuario.setPassword("123456");
-	}
+//	public Usuario getUsuario() {
+//		return usuario;
+//	}
+//	public void setUsuario(Usuario usuario) {
+//		this.usuario = usuario;
+//	}
+//	public void preencherUsuario(List<Role> roles) {
+//		this.usuario.setNome(nome);
+//		this.usuario.setMainUser(false);
+//		this.usuario.setEnabled(true);
+//		this.usuario.setRoles(roles);
+//		this.usuario.setPassword("123456");
+//	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
-		result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
+		//result = prime * result + ((usuario == null) ? 0 : usuario.hashCode());
 		return result;
 	}
 	@Override
@@ -86,11 +92,11 @@ public class Professor {
 				return false;
 		} else if (!nome.equals(other.nome))
 			return false;
-		if (usuario == null) {
-			if (other.usuario != null)
-				return false;
-		} else if (!usuario.equals(other.usuario))
-			return false;
+//		if (usuario == null) {
+//			if (other.usuario != null)
+//				return false;
+//		} else if (!usuario.equals(other.usuario))
+//			return false;
 		return true;
 	}
 	

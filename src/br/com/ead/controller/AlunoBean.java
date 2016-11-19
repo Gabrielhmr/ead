@@ -70,7 +70,7 @@ public class AlunoBean {
 			return;
 		
 		verificaAluno();	
-		preencherUsuario();
+		//preencherUsuario();
 		alunoDao.save(aluno);
 		facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso!");
 		lista();
@@ -88,11 +88,11 @@ public class AlunoBean {
 		}
 	}
 
-	private void preencherUsuario() {
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(roleDao.load("USUARIO"));
-		aluno.preencherUsuario(roles);
-	}
+//	private void preencherUsuario() {
+//		List<Role> roles = new ArrayList<Role>();
+//		roles.add(roleDao.load("USUARIO"));
+//		aluno.preencherUsuario(roles);
+//	}
 
 	private boolean alunoInvalido() {
 		if(Util.isNullOrEmpty(aluno.getMatricula())){
@@ -104,9 +104,9 @@ public class AlunoBean {
 		} else if(Util.isNullOrEmpty(aluno.getCartao())){
 			facesUtils.adicionaMensagemDeErro("Cartao Inválido!");
 			return true;
-		} else if(Util.isNullOrEmpty(aluno.getUsuario().getUsername())){
-			facesUtils.adicionaMensagemDeErro("Login Inválido!");
-			return true;
+//		} else if(Util.isNullOrEmpty(aluno.getUsuario().getUsername())){
+//			facesUtils.adicionaMensagemDeErro("Login Inválido!");
+//			return true;
 		}
 		return false;
 	}

@@ -35,8 +35,8 @@ public class Aluno {
 	@Column
 	private boolean habilitado = true;
 	
-	@OneToOne(cascade=CascadeType.ALL)
-	private Usuario usuario = new Usuario();
+	//@OneToOne(cascade=CascadeType.ALL)
+	//private Usuario usuario = new Usuario();
 	
 	public Long getId() {
 		return id;
@@ -65,12 +65,12 @@ public class Aluno {
 	public void setMatricula(String matricula) {
 		this.matricula = matricula;
 	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
+//	public Usuario getUsuario() {
+//		return usuario;
+//	}
+//	public void setUsuario(Usuario usuario) {
+//		this.usuario = usuario;
+//	}
 	public Turma getTurma() {
 		return turma;
 	}
@@ -85,11 +85,11 @@ public class Aluno {
 		this.habilitado = habilitado;
 	}
 	
-	public void preencherUsuario(List<Role> roles) {
-		this.usuario.setNome(nome);
-		this.usuario.setMainUser(false);
-		this.usuario.setEnabled(true);
-		this.usuario.setRoles(roles);
-		this.usuario.setPassword("123456");
-	}
+//	public void preencherUsuario(List<Role> roles) {
+//		this.usuario.setNome(nome);
+//		this.usuario.setMainUser(false);
+//		this.usuario.setEnabled(true);
+//		this.usuario.setRoles(roles);
+//		this.usuario.setPassword("123456");
+//	}
 }

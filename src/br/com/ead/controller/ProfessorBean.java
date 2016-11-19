@@ -67,7 +67,7 @@ public class ProfessorBean {
 			return;
 		
 		verificaProfessor();
-		preencherUsuario();
+		//preencherUsuario();
 		professorDao.save(professor);
 		facesUtils.adicionaMensagemDeInformacao("Professor adicionado com sucesso!");
 		lista();
@@ -81,20 +81,22 @@ public class ProfessorBean {
 		}
 	}
 
-	private void preencherUsuario() {
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(roleDao.load("PROFESSOR"));
-		professor.preencherUsuario(roles);
-	}
+//	private void preencherUsuario() {
+//		List<Role> roles = new ArrayList<Role>();
+//		roles.add(roleDao.load("PROFESSOR"));
+//		professor.preencherUsuario(roles);
+//	}
 
 	private boolean professorInvalido() {
 		if(Util.isNullOrEmpty(professor.getNome())){
 			facesUtils.adicionaMensagemDeErro("Nome Inválido!");
 			return true;
-		} else if(Util.isNullOrEmpty(professor.getUsuario().getUsername())){
-			facesUtils.adicionaMensagemDeErro("Login Inválido!");
-			return true;
-		}else if(Util.isNullOrEmpty(professor.getCartao())){
+		}
+//		else if(Util.isNullOrEmpty(professor.getUsuario().getUsername())){
+//			facesUtils.adicionaMensagemDeErro("Login Inválido!");
+//			return true;
+//		}
+		else if(Util.isNullOrEmpty(professor.getCartao())){
 			facesUtils.adicionaMensagemDeErro("Cartao Inválido!");
 			return true;
 		}
@@ -114,6 +116,13 @@ public class ProfessorBean {
 		verificaProfessor();
 		professorDao.update(professor);
 		facesUtils.adicionaMensagemDeInformacao("Professor atualizado com sucesso!");
+		lista();
+	}
+	
+	public void remove() {
+		professor.setHabilitado(false);
+		professorDao.update(professor);
+		facesUtils.adicionaMensagemDeInformacao("Professor removido com sucesso!");
 		lista();
 	}
 	
