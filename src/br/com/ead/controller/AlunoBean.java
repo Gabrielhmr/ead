@@ -66,26 +66,26 @@ public class AlunoBean {
 	}
 	
 	public void adiciona() {
-		if(alunoInvalido())
+		if(alunoInvalido() || verificaAluno())
 			return;
 		
-		verificaAluno();	
 		//preencherUsuario();
 		alunoDao.save(aluno);
 		facesUtils.adicionaMensagemDeInformacao("Aluno adicionado com sucesso!");
 		lista();
 	}
 	
-	private void verificaAluno() {
+	private boolean verificaAluno() {
 		Aluno alunoRetornoMatricula = alunoDao.pesquisarAlunoPorMatricula(aluno.getMatricula());
 		Aluno alunoRetornoCartao = alunoDao.pesquisarAlunoPorCartao(aluno.getCartao());
 		if(alunoRetornoMatricula != null){
 			facesUtils.adicionaMensagemDeErro("Matricula já cadastrada!");
-			return;
+			return true;
 		}else if (alunoRetornoCartao != null) {
 			facesUtils.adicionaMensagemDeErro("Cartao já cadastrado!");
-			return;
+			return true;
 		}
+		return false;
 	}
 
 //	private void preencherUsuario() {
@@ -115,13 +115,14 @@ public class AlunoBean {
 		this.aluno = alunoDao.load(aluno.getId());
 		facesUtils.cleanSubmittedValues(form);
 		setState(ESTADO_DE_EDICAO);
+		facesUtils.adicionaMensagemDeAlerta("Verifique se a matricula ou cartao nao foram utilizados anteriormente");
 	}
 
 	public void altera() {		
 		if(alunoInvalido())
 			return; 
 		
-		verificaAluno();
+		//verificaAluno();
 		alunoDao.update(aluno);
 		facesUtils.adicionaMensagemDeInformacao("Aluno atualizado com sucesso!");
 		lista();

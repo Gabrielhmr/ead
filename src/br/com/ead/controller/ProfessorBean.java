@@ -63,22 +63,22 @@ public class ProfessorBean {
 	}
 	
 	public void adiciona() {
-		if(professorInvalido())
+		if(professorInvalido() || verificaProfessor())
 			return;
 		
-		verificaProfessor();
 		//preencherUsuario();
 		professorDao.save(professor);
 		facesUtils.adicionaMensagemDeInformacao("Professor adicionado com sucesso!");
 		lista();
 	}
 	
-	private void verificaProfessor() {
+	private boolean verificaProfessor() {
 		Professor professorRetornoCartao = professorDao.pesquisarProfessorPorCartao(professor.getCartao());	
 		if (professorRetornoCartao != null) {
 			facesUtils.adicionaMensagemDeErro("Cartao já cadastrado!");
-			return;
+			return true;
 		}
+		return false;
 	}
 
 //	private void preencherUsuario() {
@@ -107,13 +107,14 @@ public class ProfessorBean {
 		this.professor = professorDao.load(professor.getId());
 		facesUtils.cleanSubmittedValues(form);
 		setState(ESTADO_DE_EDICAO);
+		facesUtils.adicionaMensagemDeAlerta("Verifique se o cartao nao foi utilizado anteriormente");
 	}
 
 	public void altera() {		
 		if(professorInvalido())
 			return; 
 		
-		verificaProfessor();
+		//verificaProfessor();
 		professorDao.update(professor);
 		facesUtils.adicionaMensagemDeInformacao("Professor atualizado com sucesso!");
 		lista();

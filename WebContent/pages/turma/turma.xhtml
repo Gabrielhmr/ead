@@ -111,7 +111,7 @@
 								</p:selectOneMenu>
 							</div>
 
-							<div class="clear"></div>
+							<!-- <div class="clear"></div>
 
 							<p:outputLabel for="professor" value="Professores: " />
 							<p:selectOneMenu id="professor" value="#{turmaBean.idProfessor}">
@@ -119,19 +119,9 @@
 								<f:selectItems value="#{turmaBean.professores}"
 									itemValue="#{professor.id}" itemLabel="#{professor.nome}"
 									var="professor" />
-							</p:selectOneMenu>
+							</p:selectOneMenu> -->
 
 							<div class="clear"></div>
-
-							<!--<h:outputLabel for="alunos" value="Alunos:" />
-							<p:selectCheckboxMenu id="alunos"
-								value="#{turmaBean.selectedAlunos}" label="Alunos" filter="true"
-								filterMatchMode="startsWith" panelStyle="width:300px">
-								<f:selectItems value="#{turmaBean.alunos}"
-									itemValue="#{aluno.id}" itemLabel="#{aluno.nome}" var="aluno" />
-							</p:selectCheckboxMenu>
-
-							<div class="clear"></div>-->
 
 							<h:outputLabel for="aluno" value="Alunos: " />
 							<p:autoComplete id="aluno" forceSelection="true"
