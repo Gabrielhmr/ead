@@ -16,6 +16,10 @@
 			<p:menuitem value="Professor" icon="ui-icon-home" url="/pages/professor/professor.xhtml" rendered="#{usuarioWeb.usuarioAdmin}" />
 			
 			<p:menuitem value="Turma" icon="ui-icon-home" url="/pages/turma/turma.xhtml" rendered="#{usuarioWeb.usuarioAdmin}" />
+			
+			<p:submenu label="Relatorios" icon="ui-icon-home" rendered="#{usuarioWeb.usuarioAdmin}" >
+				<p:menuitem value="Frequencia" url="/pages/relatorio/frequencia.xhtml" icon="ui-icon-person" />
+			</p:submenu>
 
 			<!-- <p:submenu label="Segurança" icon="ui-icon-locked" rendered="#{usuarioWeb.usuarioAdmin}" >
 				<p:submenu label="Controle de Acesso" icon="ui-icon-key" >

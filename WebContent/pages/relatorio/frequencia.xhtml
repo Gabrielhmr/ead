@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:t="http://myfaces.apache.org/tomahawk"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+
+</h:head>
+
+<h:body>
+	<ui:composition template="/template/template_padrao.xhtml">
+		<ui:define name="conteudo">
+			<p />
+			<p />
+			<p:outputPanel autoUpdate="true">
+				<h:panelGroup id="mensagens" layout="block">
+					<p:messages id="messages" showDetail="false" autoUpdate="true" />
+				</h:panelGroup>
+			</p:outputPanel>
+
+			<h:form>
+				<p:panel header="Relatario de frequencias">
+
+					 <h:panelGrid >
+            				<h:panelGroup>	
+            					<div style="margin-left: 5px; float: left;">
+									<p:outputLabel for="inicio" value="Inicio:" />
+        							<p:calendar id="inicio" value="#{relatorioBean.inicio}" />
+								</div>
+								
+								<div style="margin-left: 5px; float: left;">
+									<p:outputLabel for="fim" value="Fim:" />
+        							<p:calendar id="fim" value="#{relatorioBean.fim}" />
+								</div>
+						
+								<div style="margin-left: 5px; float: left;">
+									<h:outputLabel value="Nome" for="nome" />
+									<p:inputText id="nome" value="#{relatorioBean.nome}" size="15"/>
+							
+								</div>
+						
+
+								<t:div style="margin-left: 5px; float: left;">
+									<h:outputLabel value=""
+									style="visibility:hidden; margin-bottom:6px" />
+									<p:commandButton icon="ui-icon-search" label="Gerar Relatorio"
+									value="Gerar Relatorio" action="#{relatorioBean.gerarRelatorio}"  />
+								</t:div>	
+								
+						    </h:panelGroup>
+						
+					</h:panelGrid>	
+
+						        			
+
+							
+				</p:panel>
+			</h:form>
+		</ui:define>
+
+	</ui:composition>
+
+</h:body>
+
+</html>
